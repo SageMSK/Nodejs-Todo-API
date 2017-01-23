@@ -1,0 +1,14 @@
+{
+  "name": "node-todo-api",
+  "version": "1.0.0",
+  "description": "todo api created with nodejs, expressjs, and mongodb with mongoose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Min Soo Kim",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^2.2.21"
+  }
+}
