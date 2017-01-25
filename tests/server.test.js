@@ -7,10 +7,14 @@ const Todo = require('../models/todo');
 
 const todos = [{
   _id: new ObjectID(),
-  text: 'first test'
+  text: 'first test',
+  completed: false,
+  completedAt: null
 }, {
   _id: new ObjectID(),
-  text: 'second test'
+  text: 'second test',
+  completed: false,
+  completedAt: null
 }];
 
 // GET /todos
@@ -146,4 +150,33 @@ describe('DELETE /todos/:id', () => {
       .end(done)
   });
 
+});
+
+describe('PATCH /todos/:id', () => {
+  it('should update the todo', done => {
+    let todoHexId = todos[0]._id.toHexString();
+    let newText = 'new text';
+    request(app.app)
+      .patch(`/todos/${todoHexId}`)
+      .send({completed: true, text: newText})
+      .expect(200)
+      .expect(res => {
+        expect(res.body.todo.text).toBe(newText);
+        expect(res.body.todo.completed).toBe(true);
+        expect(res.body.todo.completedAt).toBeA('number');
+      })
+      .end(done);
+  })
+
+  it('should clear completedAt when todo is not completed', done => {
+    let todoHexId = todos[1]._id.toHexString();
+    request(app.app)
+      .patch(`/todos/${todoHexId}`)
+      .send({completed: false})
+      .expect(200)
+      .expect(res => {
+        expect(res.body.todo.completedAt).toNotExist();
+      })
+      .end(done);
+  });
 });
