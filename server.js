@@ -1,3 +1,4 @@
+require('./config.js');
 const express = require('express'),
       bodyParser = require('body-parser'),
       _ = require('lodash'),
@@ -8,8 +9,7 @@ const { mongoose } = require('./db/mongoose'),
       User = require('./models/user');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT;
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
