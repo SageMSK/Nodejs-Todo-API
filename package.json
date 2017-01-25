@@ -8,6 +8,9 @@
     "test": "mocha tests/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
+  "engines": {
+    "node": "7.4.0"
+  },
   "author": "Min Soo Kim",
   "license": "ISC",
   "dependencies": {
