@@ -6,7 +6,8 @@ const express = require('express'),
 
 const { mongoose } = require('./db/mongoose'),
       Todo = require('./models/todo'),
-      User = require('./models/user');
+      User = require('./models/user'),
+      authenticate = require('./middleware/authenticate');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -113,6 +114,10 @@ app.get('/users', (req, res) => {
   User.find().then(users => {
     res.send({users});
   }).catch(e => res.status(400).send());
+});
+
+app.get('/users/me', authenticate, (req,res) => {
+  res.send(req.user);
 });
 
 app.listen(PORT, () => {
