@@ -94,6 +94,27 @@ app.patch('/todos/:id', (req, res) => {
 
 });
 
+// ============================= //
+// ============================= //
+// ============================= //
+
+app.post('/users', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password']);
+  let newUser = new User(body);
+
+  newUser.save().then(() => {
+    return newUser.generateAuthToken();
+  }).then(token => {
+    res.header('x-auth', token).send(newUser);
+  }).catch(e => res.status(400).send(e));
+});
+
+app.get('/users', (req, res) => {
+  User.find().then(users => {
+    res.send({users});
+  }).catch(e => res.status(400).send());
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);
 });
