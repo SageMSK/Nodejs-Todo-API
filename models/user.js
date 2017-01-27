@@ -40,7 +40,7 @@ UserSchema.methods.toJSON = function () {
   let userObject = user.toObject();
 
   return _.pick(userObject, ['_id', 'email']);
-}
+};
 
 UserSchema.methods.generateAuthToken = function () {
   let user = this;
