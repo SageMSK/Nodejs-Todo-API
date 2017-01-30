@@ -4,8 +4,9 @@ const { ObjectID } = require('mongodb');
 
 const todoRouter = express.Router();
 const Todo = require('./../models/todo');
+const authenticate = require('./../middleware/authenticate');
 
-todoRouter.post('/', (req, res) => {
+todoRouter.post('/', authenticate, (req, res) => {
   let todo = new Todo({
     text: req.body.text
   });
@@ -25,7 +26,7 @@ todoRouter.get('/', (req, res) => {
   });
 });
 
-todoRouter.get('/:id', (req, res) => {
+todoRouter.get('/:id', authenticate, (req, res) => {
   let id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
@@ -44,7 +45,7 @@ todoRouter.get('/:id', (req, res) => {
 
 });
 
-todoRouter.delete('/:id', (req, res) => {
+todoRouter.delete('/:id', authenticate, (req, res) => {
   let id = req.params.id;
 
   if(!ObjectID.isValid(id)) {
@@ -62,7 +63,7 @@ todoRouter.delete('/:id', (req, res) => {
   });
 });
 
-todoRouter.patch('/:id', (req, res) => {
+todoRouter.patch('/:id', authenticate, (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['text', 'completed']);
 
