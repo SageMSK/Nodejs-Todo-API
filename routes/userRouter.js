@@ -14,13 +14,13 @@ userRouter.post('/', (req, res) => {
     return newUser.generateAuthToken();
   }).then(token => {
     res.header('x-auth', token).send(newUser);
-  }).catch(e => res.status(400).send(e));
+  }).catch(err => res.status(400).send(err));
 });
 
 userRouter.get('/', (req, res) => {
   User.find().then(users => {
     res.send({users});
-  }).catch(e => res.status(400).send(e));
+  }).catch(err => res.status(400).send(err));
 });
 
 userRouter.get('/me', authenticate, (req,res) => {
@@ -40,7 +40,7 @@ userRouter.post('/login', (req, res) => {
 userRouter.delete('/me/token', authenticate, (req, res) => {
   req.user.removeToken(req.token).then(() => {
     res.status(200).send();
-  }).catch(e => res.status(400).send(e));
-})
+  }).catch(err => res.status(400).send(err));
+});
 
 module.exports = userRouter;
