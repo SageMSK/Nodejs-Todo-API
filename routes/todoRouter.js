@@ -26,7 +26,7 @@ todoRouter.get('/', (req, res) => {
   });
 });
 
-todoRouter.get('/:id', authenticate, (req, res) => {
+todoRouter.get('/:id', (req, res) => {
   let id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
@@ -45,7 +45,7 @@ todoRouter.get('/:id', authenticate, (req, res) => {
 
 });
 
-todoRouter.delete('/:id', authenticate, (req, res) => {
+todoRouter.delete('/:id', (req, res) => {
   let id = req.params.id;
 
   if(!ObjectID.isValid(id)) {
@@ -63,7 +63,7 @@ todoRouter.delete('/:id', authenticate, (req, res) => {
   });
 });
 
-todoRouter.patch('/:id', authenticate, (req, res) => {
+todoRouter.patch('/:id', (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['text', 'completed']);
 
