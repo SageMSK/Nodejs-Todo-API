@@ -3,3 +3,6 @@ node_modules/
 
 # playground that holds test scripts and examples
 playground
+
+# configs
+config/config.json
