@@ -13,9 +13,9 @@ todoRouter.post('/', authenticate, (req, res) => {
   });
 
   todo.save().then(doc => {
-    res.send(doc);
+    res.json(doc);
   }, err => {
-    res.status(400).send(err);
+    res.status(400).json(err);
   });
 });
 
@@ -23,9 +23,9 @@ todoRouter.get('/', authenticate, (req, res) => {
   Todo.find({
     _creator: req.user._id
   }).then((todos) => {
-    res.send({ todos });
+    res.json({ todos });
   }, err => {
-    res.status(400).send(err);
+    res.status(400).json(err);
   });
 });
 
@@ -33,7 +33,7 @@ todoRouter.get('/:id', authenticate, (req, res) => {
   let id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
-    res.status(404).send();
+    res.status(404).json({ message: "Todo id is not valid. Please input the correct id." });
   }
 
   Todo.findOne({
@@ -41,12 +41,12 @@ todoRouter.get('/:id', authenticate, (req, res) => {
     _creator: req.user._id
   }).then(todo => {
     if (!todo) {
-      return res.status(404).send();
+      return res.status(404).json({ message: "Unable to find todo document." });
     }
 
-    res.send({todo});
+    res.json({todo});
   }).catch(err => {
-    res.status(400).send();
+    res.status(400).json(err);
   });
 
 });
@@ -55,7 +55,7 @@ todoRouter.delete('/:id', authenticate, (req, res) => {
   let id = req.params.id;
 
   if(!ObjectID.isValid(id)) {
-    return res.status(404).send();
+    return res.status(404).json({ message: "Todo id is not valid. Please input the correct id." });
   }
 
   Todo.findOneAndRemove({
@@ -63,12 +63,12 @@ todoRouter.delete('/:id', authenticate, (req, res) => {
     _creator: req.user._id
   }).then(todo => {
     if (!todo) {
-      return res.status(404).send();
+      return res.status(404).json({ message: "Todo doesn't exist or has been deleted." });
     }
 
-    res.send({todo});
+    res.json({ todo, message: 'Todo successfully deleted.' });
   }).catch(err => {
-    res.status(400).send();
+    res.status(400).json(err);
   });
 });
 
@@ -77,7 +77,7 @@ todoRouter.patch('/:id', authenticate, (req, res) => {
   let body = _.pick(req.body, ['text', 'completed']);
 
   if (!ObjectID.isValid(id)) {
-    return res.status(404).send();
+    return res.status(404).json({ message: "Todo id is not valid. Please input the correct id." });
   }
 
   if (_.isBoolean(body.completed) && body.completed) {
@@ -89,11 +89,11 @@ todoRouter.patch('/:id', authenticate, (req, res) => {
 
   Todo.findOneAndUpdate({ _id: id, _creator: req.user._id} , {$set: body}, {new: true}).then(todo => {
     if (!todo) {
-      return res.status(404).send();
+      return res.status(404).json({ message: "Todo doesn't exist" });
     }
 
-    res.send({todo});
-  }).catch(e => res.status(400).send());
+    res.json({ todo });
+  }).catch(err => res.status(400).json(err));
 });
 
 module.exports = todoRouter;

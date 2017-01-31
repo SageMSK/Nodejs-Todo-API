@@ -1,8 +1,10 @@
-const mongoose = require('mongoose');
+// In the main server/app file
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI);
+// const mongoose = require('mongoose');
 
-module.exports = {
-  mongoose
-};
+// mongoose.Promise = global.Promise;
+// mongoose.connect(process.env.MONGODB_URI);
+
+// module.exports = {
+//   mongoose
+// };

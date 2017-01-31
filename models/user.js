@@ -62,7 +62,7 @@ UserSchema.methods.removeToken = function (token) {
       tokens: { token }
     }
   });
-}
+};
 
 UserSchema.statics.findByToken = function (token) {
   let User = this;
@@ -71,7 +71,8 @@ UserSchema.statics.findByToken = function (token) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
-    return Promise.reject();
+    // 401 Unauthorized message
+    return Promise.reject({ message: "Unauthorized. User must be logged in."});
   }
 
   return User.findOne({
@@ -86,15 +87,16 @@ UserSchema.statics.findByCredentials = function (email, password) {
 
   return User.findOne({email}).then(user => {
     if (!user) {
-      return Promise.reject({error: "Can't find the user or user doesn't exist."});
+      // Incorrect email input
+      return Promise.reject({message: "User's email doesn't match"});
     }
-
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
           resolve(user);
         } else {
-          reject({error: 'Email or Password doesn\'t match'});
+          // Incorrect password input
+          reject({message: "Email or Password doesn't match"});
         }
       });
     });
