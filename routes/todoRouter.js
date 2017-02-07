@@ -23,7 +23,7 @@ todoRouter.get('/', authenticate, (req, res) => {
   Todo.find({
     _creator: req.user._id
   }).then((todos) => {
-    res.json({ todos });
+    res.json(todos);
   }, err => {
     res.status(400).json(err);
   });
@@ -44,7 +44,7 @@ todoRouter.get('/:id', authenticate, (req, res) => {
       return res.status(404).json({ message: "Unable to find todo document." });
     }
 
-    res.json({todo});
+    res.json(todo);
   }).catch(err => {
     res.status(400).json(err);
   });

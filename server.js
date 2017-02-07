@@ -2,6 +2,7 @@ require('./config/config.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const todoRouter = require('./routes/todoRouter');
 const userRouter = require('./routes/userRouter');
@@ -9,6 +10,8 @@ const userRouter = require('./routes/userRouter');
 const app = express();
 const PORT = process.env.PORT;
 
+// cors: need this to use local data with react/redux front end dev
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/todos', todoRouter);

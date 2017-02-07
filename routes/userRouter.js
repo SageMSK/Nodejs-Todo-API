@@ -14,7 +14,8 @@ userRouter.post('/', (req, res) => {
   newUser.save().then(() => {
     return newUser.generateAuthToken();
   }).then(token => {
-    res.header('x-auth', token).json(newUser);
+    // res.header('x-auth', token).json(newUser);
+    res.header('x-auth', token).json({ token });
   }).catch(err => res.status(400).json(err));
 });
 
@@ -33,7 +34,8 @@ userRouter.post('/login', (req, res) => {
 
   User.findByCredentials(body.email, body.password).then(user => {
     user.generateAuthToken().then(token => {
-      res.header('x-auth', token).json(user);
+      // res.header('x-auth', token).json(user);
+      res.header('x-auth', token).json({ token });
     })
   }).catch(err => res.status(400).json(err));
 });
