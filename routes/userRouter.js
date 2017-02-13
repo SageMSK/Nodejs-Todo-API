@@ -16,7 +16,7 @@ userRouter.post('/', (req, res) => {
   }).then(token => {
     // res.header('x-auth', token).json(newUser);
     res.header('x-auth', token).json({ token });
-  }).catch(err => res.status(400).json(err));
+  }).catch(err => res.status(400).json({err, message: "Email already in use" }));
 });
 
 userRouter.get('/', (req, res) => {
@@ -26,7 +26,7 @@ userRouter.get('/', (req, res) => {
 });
 
 userRouter.get('/me', authenticate, (req,res) => {
-  res.json(req.user);
+  res.json(req.token);
 });
 
 userRouter.post('/login', (req, res) => {
